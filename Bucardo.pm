@@ -7193,7 +7193,7 @@ sub validate_sync {
                         or
                         ($scol->{ftype} eq 'integer' and $fcol->{ftype} eq 'bigint')
                         or
-                        ($scol->{$ftype} eq 'bigint' and $fcol->{ftype} eq 'integer' and $ENV{BUCARDO_BIGINT_TO_INT_OK})
+                        ($scol->{ftype} eq 'bigint' and $fcol->{ftype} eq 'integer' and $ENV{BUCARDO_BIGINT_TO_INT_OK})
                         or
                         ($scol->{ftype} =~ /^timestamp/ and $fcol->{ftype} =~ /^timestamp/)
                 ) {
