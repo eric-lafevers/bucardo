@@ -1,8 +1,8 @@
 --- #YAML:1.0
 name                : Bucardo
-version             : 5.4.1
+version             : 5.4.2
 abstract            : Postgres multi-master replication system
-author:              
+author:
   - Greg Sabino Mullane <greg@endpoint.com>
 
 license             : bsd
@@ -33,10 +33,10 @@ build_requires:
 provides:
   Bucardo:
     file            : Bucardo.pm
-    version         : 5.4.1
+    version         : 5.4.2
   bucardo:
     file            : bucardo
-    version         : 5.4.1
+    version         : 5.4.2
 
 resources:
   homepage          : http://bucardo.org/index.html
