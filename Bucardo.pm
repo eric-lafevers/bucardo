@@ -7185,7 +7185,8 @@ sub validate_sync {
                     ## Carve out some known exceptions (but still warn about them)
                     ## Allowed: varchar == text
                     ## Allowed: timestamp* == timestamp*
-                    ## Allowed: int == bigint
+                    ## Allowed: integer == bigint     if BUCARDO_BIGINT_TO_INT_OK is set
+                    ## Allowed: integer[] == bigint[] if BUCARDO_BIGINT_TO_INT_OK is set
                     if (
                         ($scol->{ftype} eq 'character varying' and $fcol->{ftype} eq 'text')
                         or
@@ -7193,7 +7194,14 @@ sub validate_sync {
                         or
                         ($scol->{ftype} eq 'integer' and $fcol->{ftype} eq 'bigint')
                         or
-                        ($scol->{ftype} eq 'bigint' and $fcol->{ftype} eq 'integer' and $ENV{BUCARDO_BIGINT_TO_INT_OK})
+                        ( $ENV{BUCARDO_BIGINT_TO_INT_OK}
+                          and
+                          (
+                            ($scol->{ftype} eq 'bigint' and $fcol->{ftype} eq 'integer')
+                            or
+                            ($scol->{ftype} eq 'bigint[]' and $fcol->{ftype} eq 'integer[]')
+                          )
+                        )
                         or
                         ($scol->{ftype} =~ /^timestamp/ and $fcol->{ftype} =~ /^timestamp/)
                 ) {
