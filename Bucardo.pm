@@ -5356,7 +5356,7 @@ sub disable_triggers {
     my $dbname = $db->{name};
     if ($dbh->{pg_server_version} >= 80300) {
         $self->glog("Setting session_replication_role to replica for database $dbname", LOG_VERBOSE);
-        $dbh->do(q{SET session_replication_role = 'replica'});
+        $dbh->do(q{DO LANGUAGE plpgsql $$DECLARE somevar VARCHAR; BEGIN SELECT p.proname INTO somevar FROM pg_catalog.pg_proc p WHERE p.proname = 'rds_session_replication_role' LIMIT 1; IF NOT FOUND THEN SET session_replication_role = 'replica'; ELSE PERFORM rds_session_replication_role('replica'); END IF; END$$;});
 
         $db->{triggers_enabled} = 0;
         return undef;
@@ -5425,7 +5425,7 @@ sub enable_triggers {
         ## If we are using srr, just flip it back to the default
         if ($db->{dbh}{pg_server_version} >= 80300) {
             $self->glog("Setting session_replication_role to default for database $dbname", LOG_VERBOSE);
-            $dbh->do(q{SET session_replication_role = default}); ## Assumes a sane default!
+            $dbh->do(q{DO LANGUAGE plpgsql $$DECLARE somevar VARCHAR; BEGIN SELECT p.proname INTO somevar FROM pg_catalog.pg_proc p WHERE p.proname = 'rds_session_replication_role' LIMIT 1; IF NOT FOUND THEN SET session_replication_role = default; ELSE PERFORM rds_session_replication_role('origin'); END IF; END$$;});
             $dbh->commit();
             $db->{triggers_enabled} = time;
             next;
