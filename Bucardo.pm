@@ -7194,6 +7194,8 @@ sub validate_sync {
                         or
                         ($scol->{ftype} eq 'integer' and $fcol->{ftype} eq 'bigint')
                         or
+                        ($scol->{ftype} eq 'integer[]' and $fcol->{ftype} eq 'bigint[]')
+                        or
                         ( $ENV{BUCARDO_BIGINT_TO_INT_OK}
                           and
                           (
