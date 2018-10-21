@@ -2278,13 +2278,13 @@ FOR EACH ROW EXECUTE PROCEDURE bucardo.bucardo_delta_names_helper();
                         if (($c1->{ftype} eq 'character varying' and $c2->{ftype} eq 'text') or
                                 ($c2->{ftype} eq 'character varying' and $c1->{ftype} eq 'text')) {
                             push @warning => $msg;
-                        elsif ((($c1->{ftype} eq 'integer') && ($c2->{ftype} eq 'bigint'))
+                        } elsif ((($c1->{ftype} eq 'integer') and ($c2->{ftype} eq 'bigint'))
                                 or
-                                (($c1->{ftype} eq 'bigint' ) && ($c2->{ftype} eq 'integer'))
+                                (($c1->{ftype} eq 'bigint' ) and ($c2->{ftype} eq 'integer'))
                                 or
-                                (($c1->{ftype} eq 'integer[]') && ($c2->{ftype} eq 'bigint[]'))
+                                (($c1->{ftype} eq 'integer[]') and ($c2->{ftype} eq 'bigint[]'))
                                 or
-                                (($c1->{ftype} eq 'bigint[]') && ($c2->{ftype} eq 'integer[]')))
+                                (($c1->{ftype} eq 'bigint[]') and ($c2->{ftype} eq 'integer[]'))) {
                             push @warning => $msg;
                         } else {
                             push @problem => $msg;
